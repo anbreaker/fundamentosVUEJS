@@ -6,6 +6,7 @@ const app = new Vue({
       name: 'Bitcoin',
       img: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
       changePercent: 0,
+      price: 8400,
       pricesWithDays: [
         { day: 'Monday', value: 8400 },
         { day: 'Tuesday', value: 7900 },
