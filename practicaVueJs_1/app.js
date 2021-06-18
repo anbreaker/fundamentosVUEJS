@@ -49,6 +49,9 @@ Vue.component('CoinDetail', {
       <input type="number" v-model="value" />
       <span>{{ converterValue }} BTC </span>
 
+      <slot name='text'></slot> 
+      <slot name='link'></slot> 
+
       <ul v-show="showPrices">
         <li
           v-bind:class="{orange: p.value === coin.price,
