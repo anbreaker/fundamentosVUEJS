@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Modal Component</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Modal Component</h1>
+
+      <button v-on:click="toggleModal">Show Modal</button>
+
+      <modal-detail v-show="showModal" v-on:close="toggleModal" v-bind:title="title">
+        <p slot="body">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, eos sequi
+          ipsa quam reprehenderit fugit iusto tenetur perferendis officiis nemo assumenda
+          autem repellat, consequatur quod sit maxime. Sunt, asperiores velit!
+        </p>
+      </modal-detail>
+    </div>
+
+    <!-- cdn https://vuejs.org/v2/guide/installation.html -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
