@@ -28,6 +28,13 @@ Vue.component('CoinDetail', {
     },
   },
 
+  created() {
+    console.log('Created CoinDetail...');
+  },
+  mounted() {
+    console.log('Mounted CoinDetail...');
+  },
+
   template: `
     <div>
       <img
@@ -91,6 +98,13 @@ const app = new Vue({
       },
       color: 'f4f4f4',
     };
+  },
+
+  created() {
+    console.log('Created...');
+  },
+  mounted() {
+    console.log('Mounted...');
   },
 
   methods: {
