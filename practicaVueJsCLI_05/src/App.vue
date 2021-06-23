@@ -1,7 +1,7 @@
 <template>
   <main>
     <px-Header />
-    <router-view class="container px-5 sm:px-20 py-20 flex justify-center" />
+    <router-view class="px-5 sm:px-20 py-20 flex justify-center" />
   </main>
 </template>
 
