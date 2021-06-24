@@ -33,7 +33,7 @@
         <td>{{ a.priceUsd | dollar }}</td>
         <td>{{ a.marketCapUsd | dollar }}</td>
         <td
-          :class="
+          v-bind:class="
             a.changePercent24Hr.includes('-')
               ? 'text-red-600'
               : 'text-green-600'
