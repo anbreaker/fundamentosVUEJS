@@ -1,6 +1,13 @@
 <template>
   <div class="flex-col">
-    <template v-if="asset.id">
+    <div class="flex justify-center">
+      <bounce-loader
+        :loading="isLoading"
+        :color="'#68d391'"
+        :size="100"
+      ></bounce-loader>
+    </div>
+    <template v-if="!isLoading">
       <div class="flex flex-col sm:flex-row justify-around items-center">
         <div class="flex flex-col items-center">
           <img
@@ -39,12 +46,12 @@
             </li>
             <li class="flex justify-between">
               <b class="text-gray-600 mr-10 uppercase">Variación 24hs</b>
+              <!-- prettier-ignore -->
               <span
                 :class="
                   asset.changePercent24Hr.includes('-')
                     ? 'text-red-600'
-                    : 'text-green-600'
-                "
+                    : 'text-green-600'"
               >
                 {{ asset.changePercent24Hr | percent }}</span
               >
@@ -92,6 +99,14 @@
           <span class="text-xl"></span>
         </div>
       </div>
+
+      <line-chart
+        class="my-10"
+        :colors="['orange']"
+        :min="min"
+        :max="max"
+        :data="history.map((h) => [h.date, parseFloat(h.priceUsd).toFixed(2)])"
+      />
     </template>
   </div>
 </template>
@@ -104,6 +119,7 @@ export default {
 
   data() {
     return {
+      isLoading: false,
       asset: {},
       history: [],
     };
@@ -137,12 +153,14 @@ export default {
     async getCoin() {
       const id = this.$route.params.id;
 
+      this.isLoading = true;
+
       this.history = await api.getAssetHistory(id);
 
       Promise.all([
         (this.asset = await api.getAsset(id)),
         (this.history = await api.getAssetHistory(id)),
-      ]);
+      ]).finally(() => (this.isLoading = false));
     },
   },
 };
