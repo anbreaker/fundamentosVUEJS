@@ -1,15 +1,15 @@
 const url = 'https://api.coincap.io/v2';
 
 const getAssets = async () => {
-  const response = await fetch(`${url}/assets?limit=20`);
-  const data = await response.json();
-  return data.data;
+  let response = await fetch(`${url}/assets?limit=20`);
+  response = await response.json();
+  return response.data;
 };
 
 const getAsset = async (coin) => {
-  const response = await fetch(`${url}/assets/${coin}`);
-  const data = await response.json();
-  return data.data;
+  let response = await fetch(`${url}/assets/${coin}`);
+  response = await response.json();
+  return response.data;
 };
 
 const getAssetHistory = async (coin) => {
@@ -19,16 +19,40 @@ const getAssetHistory = async (coin) => {
 
   const start = now.getTime();
 
-  const response = await fetch(
+  let response = await fetch(
     `${url}/assets/${coin}/history?interval=h1&start=${start}&end=${end}`
   );
-  const data = await response.json();
+  response = await response.json();
 
-  return data.data;
+  return response.data;
+};
+
+const getMarkets = async (coin) => {
+  try {
+    let res = await fetch(`${url}/assets/${coin}/markets?limit=5`);
+    res = await res.json();
+
+    return res.data;
+  } catch (error) {
+    console.error('Error en el request');
+  }
+};
+
+const getExchange = async (id) => {
+  try {
+    let res = await fetch(`${url}/exchanges/${id}`);
+    res = await res.json();
+
+    return res.data;
+  } catch (error) {
+    console.error('Error en el request');
+  }
 };
 
 export default {
   getAssets,
   getAsset,
   getAssetHistory,
+  getMarkets,
+  getExchange,
 };

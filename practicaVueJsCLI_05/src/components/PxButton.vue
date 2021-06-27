@@ -14,7 +14,14 @@
       rounded
     "
   >
-    <slot></slot>
+    <beat-loader
+      :loading="isLoading"
+      :color="'#68d391'"
+      :size="8"
+    ></beat-loader>
+
+    <!-- <slot v-show="!isLoading"></slot> -->
+    <slot v-if="!isLoading"></slot>
   </button>
 </template>
 
@@ -22,9 +29,16 @@
 export default {
   name: 'PxButton',
 
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   methods: {
     buttonClick() {
-      this.$emit('click');
+      this.$emit('custom-click');
     },
   },
 };

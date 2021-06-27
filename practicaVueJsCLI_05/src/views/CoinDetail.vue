@@ -107,21 +107,52 @@
         :max="max"
         :data="history.map((h) => [h.date, parseFloat(h.priceUsd).toFixed(2)])"
       />
+
+      <h3 class="text-xl my-10">Mejores Ofertas de Cambio</h3>
+      <table>
+        <tr
+          v-for="m in markets"
+          :key="`${m.exchangeId}-${m.priceUsd}`"
+          class="border-b"
+        >
+          <td>
+            <b>{{ m.exchangeId }}</b>
+          </td>
+          <td>{{ m.priceUsd | dollar }}</td>
+          <td>{{ m.baseSymbol }} / {{ m.quoteSymbol }}</td>
+          <td>
+            <px-button
+              :is-loading="m.isLoading || false"
+              v-if="!m.url"
+              @custom-click="getWebSite(m)"
+            >
+              <slot>Obtener Link</slot>
+            </px-button>
+            <a v-else class="hover:underline text-green-600" target="_blanck">{{
+              m.url
+            }}</a>
+          </td>
+        </tr>
+      </table>
     </template>
   </div>
 </template>
 
 <script>
 import api from '../api';
+import PxButton from '../components/PxButton.vue';
 
 export default {
   name: 'CoinDetail',
+
+  components: { PxButton },
 
   data() {
     return {
       isLoading: false,
       asset: {},
       history: [],
+      markets: [],
     };
   },
 
@@ -160,7 +191,18 @@ export default {
       Promise.all([
         (this.asset = await api.getAsset(id)),
         (this.history = await api.getAssetHistory(id)),
+        (this.markets = await api.getMarkets(id)),
       ]).finally(() => (this.isLoading = false));
+    },
+
+    async getWebSite(exchange) {
+      this.$set(exchange, 'isLoading', true);
+
+      const response = await api.getExchange(exchange.exchangeId);
+
+      // exchange.url = response.exchangeUrl; // Solucion a problema Reactividad VueJs2
+      this.$set(exchange, 'url', response.exchangeUrl);
+      this.$set(exchange, 'isLoading', false);
     },
   },
 };
